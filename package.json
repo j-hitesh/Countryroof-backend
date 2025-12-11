@@ -1,0 +1,25 @@
+{
+  "name": "contryroof_api",
+  "version": "1.0.0",
+  "description": "Store , manage property",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git remote add origin https://github.com/j-hitesh/Countryroof-backend.git"
+  },
+  "keywords": [
+    "Delhi",
+    "Noida",
+    "Gurugram"
+  ],
+  "author": "Hitesh",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.2.1",
+    "mongoose": "^9.0.1"
+  }
+}
