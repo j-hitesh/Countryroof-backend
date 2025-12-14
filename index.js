@@ -1,21 +1,13 @@
+require("dotenv").config();
 const express = require("express");
-const mongoose = require("mongoose");
 const cors = require("cors");
 
 const app = express();
-app.use(express.json());
 app.use(cors());
+app.use(express.json());
 
-// MongoDB Connection
-mongoose
-  .connect("YOUR_MONGO_URL_HERE")
-  .then(() => console.log("MongoDB Connected"))
-  .catch((err) => console.log("DB Error:", err));
+app.use("/api/properties", require("./routes/propertyRoutes"));
 
-// Routes
-app.use("/api/content", require("./routes/contentRoutes"));
-
-// Server
-app.listen(5000, () => {
-  console.log("Server running on port 5000");
+app.listen(process.env.PORT, () => {
+  console.log("Server running on port " + process.env.PORT);
 });
