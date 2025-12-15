@@ -1,9 +1,21 @@
 const pool = require("../db");
 
-// ADD property
 exports.addProperty = async (req, res) => {
   try {
-    const { title, location, price, feature, address, description, type, images } = req.body;
+    const {
+      title,
+      location,
+      price,
+      feature,
+      address,
+      description,
+      type,
+      images
+    } = req.body;
+
+    if (!title || !type) {
+      return res.status(400).json({ message: "title and type are required" });
+    }
 
     const result = await pool.query(
       `INSERT INTO properties(title,location,price,feature,address,description,type)
@@ -13,15 +25,18 @@ exports.addProperty = async (req, res) => {
 
     const propertyId = result.rows[0].id;
 
-    for (let img of images) {
-      await pool.query(
-        "INSERT INTO property_images(property_id,image_url) VALUES($1,$2)",
-        [propertyId, img]
-      );
+    if (Array.isArray(images)) {
+      for (let img of images) {
+        await pool.query(
+          "INSERT INTO property_images(property_id,image_url) VALUES($1,$2)",
+          [propertyId, img]
+        );
+      }
     }
 
     res.status(201).json({ message: "Property added successfully" });
   } catch (err) {
+    console.error(err);
     res.status(500).json({ error: err.message });
   }
 };
@@ -34,7 +49,6 @@ exports.deleteProperty = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
-
 
 exports.getProperties = async (req, res) => {
   const result = await pool.query("SELECT * FROM properties ORDER BY id DESC");
